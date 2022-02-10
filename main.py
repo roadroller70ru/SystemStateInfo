@@ -80,6 +80,7 @@ def info():
         l = li + "\n"
 
     if platform.uname().system == 'Windows':
+        print("\n" + "Установленное ПО:" )
         for app in winapps.list_installed():
             print(app)
 
