@@ -1,7 +1,8 @@
-import platform
+import platform as p
 import socket
 from getmac import get_mac_address
 import getpass
+
 import winapps
 
 global list
@@ -67,22 +68,29 @@ def main():
                 f.write(l)
 """
 def info():
+    # list.append("Информация о компьютере")
+    # list.append("Операционная система: % s" % platform.uname().system)
+    # list.append("Версия ОС: % s" % platform.uname().version)
+    # list.append("Имя компьютера: % s" % platform.node())
+    # list.append("IP адресс ПК: % s" % socket.gethostbyname_ex(socket.gethostname())[-1][-1])
+    # list.append("MAC адресс: % s" % get_mac_address(ip = socket.gethostbyname_ex(socket.gethostname())[-1][-1]))
+    # list.append("Текущий пользователь: % s" % getpass.getuser())
+
     list.append("Информация о компьютере")
-    list.append("Операционная система: % s" % platform.uname().system)
-    list.append("Версия ОС: % s" % platform.uname().version)
-    list.append("Имя компьютера: % s" % platform.node())
-    list.append("IP адресс ПК: % s" % socket.gethostbyname_ex(socket.gethostname())[-1][-1])
-    list.append("MAC адресс: % s" % get_mac_address(ip = socket.gethostbyname_ex(socket.gethostname())[-1][-1]))
-    list.append("Текущий пользователь: % s" % getpass.getuser())
+    list.append(f"Операционная система: {p.uname().system}")
+    list.append(f"Версия ОС: {p.uname().version}")
+    list.append(f"Имя компьютера: {p.node()}")
+    list.append(f"IP адресс ПК: {socket.gethostbyname_ex(socket.gethostname())[-1][-1]}")
+    list.append(f"MAC адресс: {get_mac_address(ip=socket.gethostbyname_ex(socket.gethostname())[-1][-1])}")
+    list.append(f"Текущий пользователь: {getpass.getuser()}")
 
-    for li in list:
-        print(li)
-        l = li + "\n"
+    [print(f"{li}") for li in list]
 
-    if platform.uname().system == 'Windows':
+    if p.uname().system == 'Windows':
         print("\n" + "Установленное ПО:" )
-        for app in winapps.list_installed():
-            print(app)
+        [print(f"{app.name} => {app.version} =>  {app.publisher}") for app in winapps.list_installed()]
+    #     for app in winapps.list_installed():
+    #         print(app)
 
 
 
