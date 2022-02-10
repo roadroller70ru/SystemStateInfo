@@ -3,7 +3,7 @@ import socket
 from getmac import get_mac_address
 import getpass
 
-if platform.uname().system == 'Windows':
+if p.uname().system == 'Windows':
     import winapps
 
 global list
