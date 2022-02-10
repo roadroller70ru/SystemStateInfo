@@ -1,9 +1,9 @@
-import platform as p
+import platform
 import socket
 from getmac import get_mac_address
 import getpass
 import os
-w = wmi.WMI()
+# w = wmi.WMI()
 import psutil
 if platform.uname().system == 'Windows':
     import winapps
@@ -50,9 +50,9 @@ def info():
     # list.append("Текущий пользователь: % s" % getpass.getuser())
 
     list.append("Информация о компьютере")
-    list.append(f"Операционная система: {p.uname().system}")
-    list.append(f"Версия ОС: {p.uname().version}")
-    list.append(f"Имя компьютера: {p.node()}")
+    list.append(f"Операционная система: {platform.uname().system}")
+    list.append(f"Версия ОС: {platform.uname().version}")
+    list.append(f"Имя компьютера: {platform.node()}")
     list.append(f"IP адресс ПК: {socket.gethostbyname_ex(socket.gethostname())[-1][-1]}")
     list.append(f"MAC адресс: {get_mac_address(ip=socket.gethostbyname_ex(socket.gethostname())[-1][-1])}")
     list.append(f"Текущий пользователь: {getpass.getuser()}")
@@ -76,9 +76,10 @@ def info():
         for li in list:
             print(li)
             l = li + "\n"
-        print("\n" + "Установленное ПО:")
-        for app in winapps.list_installed():
-             print(app)
+
+        # print("\n" + "Установленное ПО:")
+        # for app in winapps.list_installed():
+        #      print(app)
 
 
 def main():
