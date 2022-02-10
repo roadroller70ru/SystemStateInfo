@@ -3,6 +3,7 @@ import socket
 from getmac import get_mac_address
 import getpass
 import os
+# w = wmi.WMI()
 import psutil
 if platform.uname().system == 'Windows':
     import winapps
@@ -40,13 +41,21 @@ def main():
                 f.write(l)
 """
 def info():
+    # list.append("Информация о компьютере")
+    # list.append("Операционная система: % s" % platform.uname().system)
+    # list.append("Версия ОС: % s" % platform.uname().version)
+    # list.append("Имя компьютера: % s" % platform.node())
+    # list.append("IP адресс ПК: % s" % socket.gethostbyname_ex(socket.gethostname())[-1][-1])
+    # list.append("MAC адресс: % s" % get_mac_address(ip = socket.gethostbyname_ex(socket.gethostname())[-1][-1]))
+    # list.append("Текущий пользователь: % s" % getpass.getuser())
+
     list.append("Информация о компьютере")
-    list.append("Операционная система: % s" % platform.uname().system)
-    list.append("Версия ОС: % s" % platform.uname().version)
-    list.append("Имя компьютера: % s" % platform.node())
-    list.append("IP адресс ПК: % s" % socket.gethostbyname_ex(socket.gethostname())[-1][-1])
-    list.append("MAC адресс: % s" % get_mac_address(ip = socket.gethostbyname_ex(socket.gethostname())[-1][-1]))
-    list.append("Текущий пользователь: % s" % getpass.getuser())
+    list.append(f"Операционная система: {platform.uname().system}")
+    list.append(f"Версия ОС: {platform.uname().version}")
+    list.append(f"Имя компьютера: {platform.node()}")
+    list.append(f"IP адресс ПК: {socket.gethostbyname_ex(socket.gethostname())[-1][-1]}")
+    list.append(f"MAC адресс: {get_mac_address(ip=socket.gethostbyname_ex(socket.gethostname())[-1][-1])}")
+    list.append(f"Текущий пользователь: {getpass.getuser()}")
 
     if platform.uname().system == 'Windows':
         indx = 0
@@ -67,9 +76,10 @@ def info():
         for li in list:
             print(li)
             l = li + "\n"
-        print("\n" + "Установленное ПО:")
-        for app in winapps.list_installed():
-             print(app)
+
+        # print("\n" + "Установленное ПО:")
+        # for app in winapps.list_installed():
+        #      print(app)
 
 
 def main():
@@ -77,3 +87,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
