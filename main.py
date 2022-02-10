@@ -2,45 +2,17 @@ import platform as p
 import socket
 from getmac import get_mac_address
 import getpass
-
-if p.uname().system == 'Windows':
+import os
+w = wmi.WMI()
+import psutil
+if platform.uname().system == 'Windows':
     import winapps
-
+    import wmi
+    w = wmi.WMI()
 global list
 list=[]
 
 """
-import wmi
-import os
-w = wmi.WMI()
-global list
-list=[]
-
-def info():
-    list.append("Информация о компьютере")
-    for BIOSs in w.Win32_ComputerSystem():
-        list.append ("Имя компьютера:% s"% BIOSs.Caption)
-        list.append ("Пользователь:% s"% BIOSs.UserName)
-    for address in w.Win32_NetworkAdapterConfiguration(ServiceName = "e1dexpress"):
-        list.append ("IP-адрес:% s"% address.IPAddress [0])
-        list.append ("MAC-адрес:% s"% address.MACAddress)
-    for BIOS in w.Win32_BIOS():
-        list.append ("Дата использования:% s"% BIOS.Description)
-        list.append ("Модель материнской платы:% s"% BIOS.SerialNumber)
-    for processor in w.Win32_Processor():
-        list.append ("Модель ЦП:% s"% processor.Name.strip ())
-    for memModule in w.Win32_PhysicalMemory():
-        totalMemSize=int(memModule.Capacity)
-        list.append ("Производитель памяти:% s"% memModule.Manufacturer)
-        list.append ("Модель памяти:% s"% memModule.PartNumber)
-        list.append ("Размер памяти:% .2fGB"% (totalMemSize / 1024 ** 3))
-    for disk in w.Win32_DiskDrive(InterfaceType = "IDE"):
-        diskSize=int(disk.size)
-        list.append ("Имя диска:% s"% disk.Caption)
-        list.append ("Размер диска:% .2fGB"% (diskSize / 1024 ** 3))
-    for xk in w.Win32_VideoController():
-        list.append ("Имя видеокарты:% s"% xk.name)
-
 def main():
     global path
     path= "c:/systeminfo"
@@ -85,14 +57,28 @@ def info():
     list.append(f"MAC адресс: {get_mac_address(ip=socket.gethostbyname_ex(socket.gethostname())[-1][-1])}")
     list.append(f"Текущий пользователь: {getpass.getuser()}")
 
-    [print(f"{li}") for li in list]
+    if platform.uname().system == 'Windows':
+        indx = 0
 
-    if p.uname().system == 'Windows':
-        print("\n" + "Установленное ПО:" )
-        [print(f"{app.name} => {app.version} =>  {app.publisher}") for app in winapps.list_installed()]
-    #     for app in winapps.list_installed():
-    #         print(app)
+        for disk in w.Win32_DiskDrive(InterfaceType="IDE"):
+            diskSize = int(disk.size)
 
+            for x in w.Win32_PhysicalMedia():
+                tagReplacedSlashes = x.Tag.replace("\\", "")
+                devname = "PHYSICALDRIVE" + str(indx)
+                if devname in tagReplacedSlashes:
+                    sernum = x.SerialNumber
+
+            list.append("Марка диска:% s" % disk.Caption)
+            list.append("Серийный номер диска: % s" % sernum)
+            list.append("Размер диска:% .2fGB" % (diskSize / 1024 ** 3))
+
+        for li in list:
+            print(li)
+            l = li + "\n"
+        print("\n" + "Установленное ПО:")
+        for app in winapps.list_installed():
+             print(app)
 
 
 def main():
